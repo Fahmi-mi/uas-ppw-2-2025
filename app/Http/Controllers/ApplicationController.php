@@ -34,26 +34,24 @@ class ApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $jobId)
+     public function store(Request $request, $jobId)
     {
         $request->validate([
-            'cv' => 'required',
+            'cv' => 'required|mimes:pdf|max:2048',
         ]);
 
         $cvPath = $request->file('cv')->store('cvs', 'public');
 
-        $application = JobVacancy::create([
+        $application = Application::create([
             'user_id' => auth()->id(),
             'job_id' => $jobId,
             'cv' => $cvPath,
         ]);
 
-        // Kirim email ke user
         Mail::to(auth()->user()->email)->send(new JobAppliedMail($application->job, auth()->user()));
 
         sleep(10);
 
-        // Kirim notifikasi ke admin
         $admin = User::where('role', 'admin')->first();
         $admin->notify(new NewApplicationNotification($application));
 
