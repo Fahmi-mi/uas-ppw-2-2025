@@ -88,13 +88,11 @@
                             </tbody>
                         </table>
 
-                        {{--
                         @if($jobs->hasPages())
                         <div class="mt-6">
                             {{ $jobs->links() }}
                         </div>
                         @endif
-                        --}}
                     </div>
                 </div>
             </div>

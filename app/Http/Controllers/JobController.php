@@ -13,7 +13,9 @@ class JobController extends Controller
     {
         $search = $request->input('search');
 
-        $jobs = Job::paginate();
+        $jobs = Job::where('title', 'like', "%".$search."%")
+            ->orWhere('company', 'like', "%".$search."%")
+            ->paginate(10);
 
         return view('jobs.index', compact('jobs', 'search'));
     }
