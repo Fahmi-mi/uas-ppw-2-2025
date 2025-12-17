@@ -76,7 +76,7 @@ class JobApiController extends Controller
      */
     public function show(JobVacancy $job)
     {
-        return response()->json($job->only('id'));
+        return response()->json($job);
     }
 
     /**
